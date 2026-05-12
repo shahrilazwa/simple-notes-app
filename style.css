@@ -1,0 +1,295 @@
+/* ============================================================
+   Simple Notes App — style.css
+   All visual styling lives here.
+   JavaScript communicates with CSS only by adding/removing
+   class names (.hidden, .editing) — no inline styles.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Reset & base
+   ------------------------------------------------------------ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #f5f5f5;
+  color: #222;
+  min-width: 600px; /* readable on standard desktop viewport */
+}
+
+/* ------------------------------------------------------------
+   2. Utility — used by JavaScript to show/hide elements
+   ------------------------------------------------------------ */
+
+/* .hidden hides an element completely.
+   app.js adds/removes this class — it never sets display directly. */
+.hidden {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   3. App shell
+   ------------------------------------------------------------ */
+#app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* ------------------------------------------------------------
+   4. Header — title + search bar
+   ------------------------------------------------------------ */
+header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  white-space: nowrap;
+}
+
+#search-bar {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+#search-bar:focus {
+  outline: none;
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+}
+
+/* ------------------------------------------------------------
+   5. Main layout — note list + editor side by side
+   ------------------------------------------------------------ */
+main {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* ------------------------------------------------------------
+   6. Note list
+   ------------------------------------------------------------ */
+#note-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0; /* prevent flex overflow */
+}
+
+/* Empty / no-results message rendered by app.js */
+#note-list .empty-message {
+  padding: 1rem;
+  color: #888;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   7. Note card
+   Note cards are created dynamically by app.js.
+   Each card gets the class "note-card".
+   ------------------------------------------------------------ */
+.note-card {
+  background: #fff;
+  border: 2px solid #ddd;       /* visible border distinguishes cards from page */
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+
+.note-card:hover {
+  border-color: #4a90d9;
+  box-shadow: 0 2px 8px rgba(74, 144, 217, 0.15);
+}
+
+.note-card .note-card-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  color: #1a1a2e;
+  /* Prevent very long titles from breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-card .note-card-snippet {
+  font-size: 0.875rem;
+  color: #555;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* .editing — visually highlights the note currently open in the editor.
+   app.js adds this class when a note is loaded for editing,
+   and removes it when editing is cancelled or saved. */
+.note-card.editing {
+  border-color: #e67e22;        /* distinct orange border — easy to spot */
+  background-color: #fff8f2;
+  box-shadow: 0 2px 10px rgba(230, 126, 34, 0.2);
+}
+
+/* ------------------------------------------------------------
+   8. Delete button (inside each note card)
+   ------------------------------------------------------------ */
+.note-card .delete-btn {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #e74c3c;   /* red — clearly destructive */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+  /* Prevent the card click (edit) from firing when Delete is clicked */
+  z-index: 1;
+}
+
+.note-card .delete-btn:hover {
+  background-color: #c0392b;
+}
+
+.note-card .delete-btn:focus-visible {
+  outline: 2px solid #c0392b;
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   9. Editor section
+   ------------------------------------------------------------ */
+#editor {
+  width: 340px;
+  flex-shrink: 0;
+}
+
+#note-form {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #444;
+}
+
+#note-title,
+#note-body {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fafafa;
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+#note-title:focus,
+#note-body:focus {
+  outline: none;
+  border-color: #4a90d9;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.2);
+}
+
+/* Inline validation error message */
+#title-error {
+  font-size: 0.8rem;
+  color: #e74c3c;
+  /* Shown/hidden via .hidden class toggled by app.js */
+}
+
+/* ------------------------------------------------------------
+   10. Form action buttons — Save and Cancel
+   Both are styled and clearly distinguishable from each other.
+   ------------------------------------------------------------ */
+.form-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* Save button — primary action, blue */
+#save-btn {
+  flex: 1;
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #4a90d9;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+#save-btn:hover {
+  background-color: #357abd;
+}
+
+#save-btn:focus-visible {
+  outline: 2px solid #357abd;
+  outline-offset: 2px;
+}
+
+/* Cancel button — secondary action, neutral grey
+   Shown/hidden via .hidden class toggled by app.js */
+#cancel-btn {
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #444;
+  background-color: #e8e8e8;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+#cancel-btn:hover {
+  background-color: #d4d4d4;
+}
+
+#cancel-btn:focus-visible {
+  outline: 2px solid #999;
+  outline-offset: 2px;
+}
