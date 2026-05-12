@@ -134,6 +134,17 @@ You can see the results in the **Actions** tab on GitHub.
 
 ---
 
+## Project Planning Documents
+
+This project was built using spec-driven development with [Kiro](https://kiro.dev).
+The planning documents are stored in the `docs/` folder:
+
+- [Requirements](docs/requirements.md) — functional and non-functional requirements with acceptance criteria
+- [Design](docs/design.md) — architecture, component breakdown, data models, and testing strategy
+- [Tasks](docs/tasks.md) — step-by-step implementation tasks with commit reminders
+
+---
+
 ## Future Improvements
 
 - Add timestamps (created at / last edited)
