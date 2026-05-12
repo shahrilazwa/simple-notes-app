@@ -1,0 +1,51 @@
+# .github/workflows/ci.yml
+#
+# CI pipeline for Simple Notes App.
+#
+# This workflow runs automatically on every push to main and on
+# every pull request targeting main. It installs dependencies and
+# runs the Jest unit tests, so you get instant feedback if a change
+# breaks something without having to remember to run tests manually.
+#
+# Why npm ci instead of npm install?
+#   npm ci installs exactly what is recorded in package-lock.json.
+#   This makes every CI run reproducible — the same package versions
+#   every time, on every machine.
+
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js 20 with npm dependency caching.
+      #    cache: 'npm' tells the action to cache the npm cache
+      #    directory, so repeated runs reuse downloaded packages
+      #    instead of downloading them from scratch every time.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      # 3. Install dependencies exactly as recorded in package-lock.json
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Run the Jest unit test suite
+      - name: Run tests
+        run: npm test
