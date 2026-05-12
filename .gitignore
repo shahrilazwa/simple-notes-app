@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Jest coverage output
+coverage/
+
+# macOS metadata
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
