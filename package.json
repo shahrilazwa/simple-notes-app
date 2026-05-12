@@ -1,0 +1,11 @@
+{
+  "name": "simple-notes-app",
+  "version": "1.0.0",
+  "description": "A beginner-friendly notes app built with plain HTML, CSS, and JavaScript.",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}
